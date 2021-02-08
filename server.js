@@ -1,7 +1,10 @@
 const io = require('socket.io')() //doble parentesi instancia
 
 io.on('connection', client => {
-    console.log("client: " + client.id);
+    console.log('client: ' + client.id);
+
+    client.emit('salut', 'hola!'); //event, cos
+
 })
 
 io.listen(process.env.PORT || 3000)
