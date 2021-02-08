@@ -7,3 +7,17 @@ socket.on('salut', missatge => {
     console.log(missatge);
 
 })
+
+const actionButton = document.getElementById('actionButton');
+const chatButton = document.getElementById('chatButton');
+
+actionButton.addEventListener('click', clickActionButton);
+actionButton.addEventListener('click', chatButton);
+
+function clickActionButton() {
+    socket.emit('gameAction', 'I have sent an action');
+}
+
+function clickChatButton() {
+    socket.emit('gameAction', 'I have sent a chat message');
+}

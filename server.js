@@ -5,6 +5,20 @@ io.on('connection', client => {
 
     client.emit('salut', 'hola!'); //event, cos
 
+    client.on('gameAction', actionObject => {
+
+        console.log('rebut event1');
+        console.log(actionObject);
+
+    })
+
+    client.on('chat', chatLine => {
+        console.log('rebut event2');
+        console.log(chatLine);
+    })
+
+
+
 })
 
 io.listen(process.env.PORT || 3000)
