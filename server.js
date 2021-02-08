@@ -1,4 +1,4 @@
-const io = require('socketio')() //doble parentesi instancia
+const io = require('socket.io')() //doble parentesi instancia
 
 io.on('connection', client => {
     console.log("client: " + client.id);
