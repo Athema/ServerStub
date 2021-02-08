@@ -16,5 +16,8 @@
   "bugs": {
     "url": "https://github.com/Athema/ServerStub/issues"
   },
-  "homepage": "https://github.com/Athema/ServerStub#readme"
+  "homepage": "https://github.com/Athema/ServerStub#readme",
+  "dependencies": {
+    "socketio": "^1.0.0"
+  }
 }
