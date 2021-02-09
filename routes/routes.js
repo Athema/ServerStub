@@ -21,9 +21,9 @@ module.exports = (app) => {
             if (userValid === true) {
 
                 PlayerSchema.create({
-                    nickname: nickname,
-                    email: email,
-                    password: password
+                    nickname: user.nickname,
+                    email: user.email,
+                    password: user.password
                 }, (err, result) => {
                     console.log(result)
                     console.log(err)
