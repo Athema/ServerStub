@@ -98,11 +98,17 @@ module.exports = (app) => {
                         }
                     }
                 })
+            } else {
+                res.status(500).send(userValid)
             }
         })
     })
+
+    //reset password
+    //update gamedata
 }
 
+//differentiate register and login
 function validateUser(user) {
     console.log(user.nickname)
     console.log('validation')
