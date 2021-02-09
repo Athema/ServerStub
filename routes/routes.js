@@ -8,21 +8,26 @@ module.exports = (app) => {
         let form = new formidable.IncomingForm()
         form.parse(req, (err, fields) => {
             console.log(fields)
-            let nickname = fields.nickname
-            let email = fields.email
 
-            let nicknameValid = validateNickname(nickname)
+            let user = {
+                nickname: fields.nickname,
+                email: fields.email,
+                password: fields.password
+            }
 
-            if(nicknameValid === true) {
+            let userValid = validateUser(user)
 
-                PlayerSchema.create(
-                {
+
+            if (userValid === true) {
+
+                PlayerSchema.create({
                     nickname: nickname,
-                    email: email
+                    email: email,
+                    password: password
                 }, (err, result) => {
                     console.log(result)
                     console.log(err)
-                    if(err) {
+                    if (err) {
                         res.status(500).send('An error has ocurred during the user data insertion')
                     } else {
                         res.status(200).send('The user has been added successfully')
@@ -62,27 +67,29 @@ module.exports = (app) => {
 
                 //     }
                 // })
-                    
+
             } else {
                 res.status(500).send(nicknameValid)
             }
-            
+
         })
 
     })
 
 }
 
-function validateNickname(nickname) {
-    console.log(nickname)
+function validateUser(user) {
+    console.log(user.nickname)
     console.log('validation')
-    if(nickname === '') return 'Nickname is empty'
-    if(nickname.length < 6) return 'Nickname must be longer than 6 characters'
+
+    if (user.nickname === '') return 'Nickname is empty'
+    if (user.nickname.length < 6) return 'Nickname must be longer than 6 characters'
+
     return true
 }
 
 function validatePassword(password) {
-    if(nickname === '') return 'Nickname is empty'
-    if(nickname.length < 6) return 'Nickname must be longer than 6 characters'
+    if (nickname === '') return 'Nickname is empty'
+    if (nickname.length < 6) return 'Nickname must be longer than 6 characters'
     return true
 }
