@@ -12,70 +12,95 @@ module.exports = (app) => {
             let user = {
                 nickname: fields.nickname,
                 email: fields.email,
-                password: fields.password
+                password: fields.password,
+                passwordConfirm: fields.passwordConfirm
             }
 
             let userValid = validateUser(user)
 
-
             if (userValid === true) {
 
-                PlayerSchema.create({
-                    nickname: user.nickname,
-                    email: user.email,
-                    password: user.password
+                PlayerSchema.find({
+
+                    email: user.email
+
                 }, (err, result) => {
-                    console.log(result)
-                    console.log(err)
                     if (err) {
                         res.status(500).send('An error has ocurred during the user data insertion')
                     } else {
-                        res.status(200).send('The user has been added successfully')
+                        if (result.length === 0) {
+                            PlayerSchema.create({
+                                nickname: user.nickname,
+                                email: user.email,
+                                password: user.password
+                            }, (err, result) => {
+                                console.log(result)
+                                console.log(err)
+                                if (err) {
+
+                                    if (err.code === 11000) {
+                                        res.status(500).send('This Nickname is already used, please choose another one')
+                                    } else {
+                                        res.status(500).send('An error has ocurred during the user data insertion')
+                                    }
+                                } else {
+                                    res.status(200).send('The user has been added successfully')
+                                }
+                            })
+                        } else {
+                            res.status(500).send('This email is already used, please choose another one')
+                        }
                     }
                 })
-
-                // PlayerSchema.find(
-                // {
-                //     $or: [
-                //         {
-                //             nickname: nickname
-                //         },
-                //         {
-                //             email: email
-                //         }
-                //     ]
-                // }, (err, result) => {
-                //     if(err) {
-                //         res.status(500).send('An error has ocurred during the user data insertion')
-                //     } else {
-                //         if(result.length === 0)
-                //         {
-                //             PlayerSchema.create(
-                //             {
-                //                 nickname: nickname
-                //             }, (err, result) => {
-                //                 console.log(result)
-                //                 if(err) {
-                //                     res.status(500).send('An error has ocurred during the user data insertion')
-                //                 } else {
-                //                     res.status(200).send('The user has been added successfully')
-                //                 }
-                //             })
-                //         } else {
-                //             res.status(500).send('This nickname is already used, please choose another one')
-                //         }
-
-                //     }
-                // })
-
             } else {
                 res.status(500).send(nicknameValid)
             }
-
         })
-
     })
 
+    app.post('/login', (req, res) => {
+
+        let form = new formidable.IncomingForm()
+        form.parse(req, (err, fields) => {
+            console.log(fields)
+
+            let user = {
+                nickname: fields.nickname,
+                email: fields.email,
+                password: fields.password,
+                passwordConfirm: fields.passwordConfirm
+            }
+
+            let userValid = validateUser(user)
+
+            if (userValid === true) {
+
+                PlayerSchema.find({
+                    $or: [
+                        { email: user.email },
+                        { nickname: user.nickname }
+
+                    ]
+
+                }, (err, results) => {
+                    if (err) {
+                        res.status(500).send('Error logging in')
+                    } else {
+                        if (results.length === 0) {
+                            res.status(500).send('The user doesn\'t exist')
+                        } else {
+
+                            if (user.password === results[0].password) {
+                                res.status(200).send(results)
+                            } else {
+                                res.status(500).send('Incorrect Password')
+                            }
+                        }
+                    }
+                })
+            }
+        })
+    })
 }
 
 function validateUser(user) {
@@ -85,11 +110,7 @@ function validateUser(user) {
     if (user.nickname === '') return 'Nickname is empty'
     if (user.nickname.length < 6) return 'Nickname must be longer than 6 characters'
 
-    return true
-}
+    //validar password, nickname i email - definir longitud, complexitat, etc 
 
-function validatePassword(password) {
-    if (nickname === '') return 'Nickname is empty'
-    if (nickname.length < 6) return 'Nickname must be longer than 6 characters'
     return true
 }
