@@ -15,6 +15,11 @@ let playerSchema = new Schema({
     password: {
         type: String,
         required: true
+    },
+    isDeleted: {
+        type: Boolean,
+        default: false,
+        required: false
     }
 })
 

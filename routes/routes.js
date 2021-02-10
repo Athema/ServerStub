@@ -104,6 +104,47 @@ module.exports = (app) => {
         })
     })
 
+    app.post('/update', (req, res) => {
+
+        let form = new formidable.IncomingForm()
+        form.parse(req, (err, fields) => {
+            console.log(fields)
+
+            let user = {
+                nickname: fields.nickname,
+                email: fields.email,
+                password: fields.password
+            }
+
+            let userValid = validateUser(user)
+
+            if (userValid === true) {
+
+                PlayerSchema.updateOne({
+                        $or: [
+                            { email: user.email },
+                            { nickname: user.nickname }
+
+                        ]
+                    }, {
+                        password: user.password
+                    },
+                    (err, result) => {
+                        if (err) {
+                            res.status(500).send('An error has ocurred during the update')
+                        } else {
+                            console.log("update");
+
+                            console.log(result);
+                            res.status(200).send("The new password is: " + user.password)
+                        }
+                    })
+            } else {
+                res.status(500).send(nicknameValid)
+            }
+        })
+    })
+
     //reset password
     //update gamedata
 }
