@@ -145,7 +145,7 @@ module.exports = (app) => {
         })
     })
 
-    //reset password
+    //reset passworda
     //update gamedata
 }
 
