@@ -33,7 +33,8 @@ io.on('connection', client => {
 
         gameQueue[player] = client.id
 
-
+        console.log(gameQueue);
+        console.log(Object.keys(gameQueue).length);
 
         if (Object.keys(gameQueue).length >= 2) {
 
