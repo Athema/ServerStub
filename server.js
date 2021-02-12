@@ -15,20 +15,51 @@ const dbconfig = require('./database/dbconfig');
 
 const userRoutes = require('./routes/routes')(app)
 
+//LOOKING FOR GAME ATTRIBUTES
+let gameQueue = {}
+
 io.on('connection', client => {
+
+    //CONNECTION & DISCONNECTION
     console.log('client: ' + client.id);
 
     client.on('disconnect', function() {
         console.log("Player disconnected");
     });
 
+    //LOOKING FOR GAME / matchmaking
+    client.on('lookingForGame', player => {
+        console.log(player.nickName);
+
+        gameQueue[player] = client.id
 
 
+
+        if (Object.keys(gameQueue).length >= 2) {
+
+            let game = {
+                "player1": Object.keys(gameQueue)[0],
+                "player2": Object.keys(gameQueue)[1],
+                "gameCode": "1"
+            }
+            client.emit('initGame', game);
+            client.broadcast('initGame', game);
+
+        } else {
+            console.log('waiting for Game');
+            client.emit('waiting', 'waiting for Game');
+        }
+
+        //console.log(gameQueue);
+
+    });
+
+    //CHAT
     client.on('sendMessage', message => {
         console.log(message);
 
-        client.broadcast.emit('serverResponse', 'El server diu hola!'); //event, cos
-        client.emit('serverResponse', 'El server diu hola!'); //event, cos
+        client.broadcast.emit('serverResponse', message); //event, cos
+        client.emit('serverResponse', message); //event, cos
 
     });
 
