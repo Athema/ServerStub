@@ -31,7 +31,7 @@ io.on('connection', client => {
     client.on('lookingForGame', player => {
         console.log(player.nickName);
 
-        gameQueue[player] = client.id
+        gameQueue[player.nickname] = client.id
 
         console.log(gameQueue);
         console.log(Object.keys(gameQueue).length);
@@ -60,7 +60,7 @@ io.on('connection', client => {
         console.log(message);
 
         client.broadcast.emit('serverResponse', message); //event, cos
-        client.emit('serverResponse', message); //event, cos
+        //client.emit('serverResponse', message); //event, cos
 
     });
 
