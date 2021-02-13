@@ -39,7 +39,7 @@ io.on('connection', client => {
 
         console.log(player.nickName);
 
-        gameQueue[player.nickName] = client.id
+        gameQueue[client.id] = player.nickName
 
         console.log(gameQueue);
         console.log(Object.keys(gameQueue).length);
@@ -62,14 +62,18 @@ io.on('connection', client => {
 
     });
 
-    //CHAT
-    client.on('sendMessage', message => {
+    client.on('cancelSearch', message => {
         console.log(message);
 
-        client.broadcast.emit('serverResponse', message); //event, cos
-        //client.emit('serverResponse', message); //event, cos
+        delete gameQueue[client.id]
+
+        console.log(gameQueue);
 
     });
+
+
+    //CHAT
+
 
     //ui web
     client.on('gameAction', actionObject => {
@@ -106,11 +110,8 @@ function checkGameReady(client) {
             clearInterval(intervalID);
 
             console.log("before: " + gameQueue)
-            delete gameQueue[Object.keys(gameQueue)[0]]
-            console.log("p1 removed: " + gameQueue)
-
-            delete gameQueue[Object.keys(gameQueue)[1]]
-            console.log("p2 removed: " + gameQueue)
+            delete gameQueue[client.id]
+            console.log("player removed: " + gameQueue)
 
             client.emit('waiting', 'cancelled');
 
