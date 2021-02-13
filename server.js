@@ -31,7 +31,7 @@ io.on('connection', client => {
     client.on('lookingForGame', player => {
         console.log(player.nickName);
 
-        gameQueue[player.nickname] = client.id
+        gameQueue[player.nickName] = client.id
 
         console.log(gameQueue);
         console.log(Object.keys(gameQueue).length);
