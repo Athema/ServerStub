@@ -43,12 +43,11 @@ io.on('connection', client => {
                 "player2": Object.keys(gameQueue)[1],
                 "gameCode": "1"
             }
-            client.emit('initGame', game);
-            client.broadcast.emit('initGame', game);
+            client.emit('initGame', game); //self
+            client.broadcast.emit('initGame', game); //the rest
 
         } else {
-            console.log('waiting for Game');
-            client.emit('waiting', 'waiting for Game');
+            checkGameReady(client)
         }
 
         //console.log(gameQueue);
@@ -77,6 +76,20 @@ io.on('connection', client => {
         console.log(chatLine);
     })
 })
+
+//looking for game period interval
+function checkGameReady(client) {
+    const intervalID = setInterval(() => {
+
+        if (Object.keys(gameQueue).length < 2) { //game players
+
+            client.emit('waiting', 'waiting for Game');
+            clearInterval(intervalID);
+
+        }
+
+    }, 2000)
+}
 
 // 3000 en cas de que Heroku no la portés per defecte, 3000 és local
 
