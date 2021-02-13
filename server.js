@@ -6,6 +6,10 @@ const socketio = require('socket.io')
 const app = express()
 const server = http.createServer(app)
 const io = socketio(server)
+const {
+    TOTAL_WAITING_TICKS,
+    TICK
+} = require('./utils/constants')
 
 app.use(express.static(path.join(__dirname, "public")))
 
@@ -79,20 +83,34 @@ io.on('connection', client => {
 
 //looking for game period interval
 function checkGameReady(client) {
+
+    let currentWaitingTicks = 0;
+
     const intervalID = setInterval(() => {
 
         console.log("interval ID");
         console.log(client.id);
         console.log(gameQueue);
 
-        if (Object.keys(gameQueue).length < 2) { //game players
+        if (Object.keys(gameQueue).length < 2 && currentWaitingTicks < TOTAL_WAITING_TICKS) { //game players
 
             client.emit('waiting', 'waiting for Game');
+
+            currentWaitingTicks++;
+
         } else {
             clearInterval(intervalID);
+
+            console.log("before: " + gameQueue)
+            delete gameQueue[Object.keys(gameQueue)[0]]
+            console.log("p1 removed: " + gameQueue)
+
+            delete gameQueue[Object.keys(gameQueue)[1]]
+            console.log("p2 removed: " + gameQueue)
+
         }
 
-    }, 2000)
+    }, TICK)
 }
 
 // 3000 en cas de que Heroku no la portés per defecte, 3000 és local
