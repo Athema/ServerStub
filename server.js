@@ -35,6 +35,7 @@ io.on('connection', client => {
     client.on('lookingForGame', player => {
 
         //player = JSON.parse(player);
+        console.log(player);
 
         console.log(player.nickName);
 
