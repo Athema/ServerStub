@@ -44,7 +44,7 @@ io.on('connection', client => {
                 "gameCode": "1"
             }
             client.emit('initGame', game);
-            client.broadcast('initGame', game);
+            client.broadcast.emit('initGame', game);
 
         } else {
             console.log('waiting for Game');
