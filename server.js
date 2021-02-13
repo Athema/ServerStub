@@ -33,6 +33,9 @@ io.on('connection', client => {
 
     //LOOKING FOR GAME / matchmaking
     client.on('lookingForGame', player => {
+
+        JSON.parse(player);
+
         console.log(player.nickName);
 
         gameQueue[player.nickName] = client.id
