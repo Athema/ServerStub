@@ -98,7 +98,7 @@ function checkGameReady(client) {
 
         if (Object.keys(gameQueue).length < 2 && currentWaitingTicks < TOTAL_WAITING_TICKS) { //game players
 
-            client.emit('waiting', 'waiting for Game');
+            client.emit('waiting', 'waiting');
 
             currentWaitingTicks++;
 
@@ -112,7 +112,7 @@ function checkGameReady(client) {
             delete gameQueue[Object.keys(gameQueue)[1]]
             console.log("p2 removed: " + gameQueue)
 
-            client.emit('waiting', false);
+            client.emit('waiting', 'cancelled');
 
         }
 
