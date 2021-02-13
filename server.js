@@ -112,6 +112,8 @@ function checkGameReady(client) {
             delete gameQueue[Object.keys(gameQueue)[1]]
             console.log("p2 removed: " + gameQueue)
 
+            client.emit('waiting', false);
+
         }
 
     }, TICK)
