@@ -38,11 +38,11 @@ io.on('connection', client => {
 
         if (Object.keys(gameQueue).length >= 2) {
 
-            let game = {
+            let game = JSON.stringify({
                 "player1": Object.keys(gameQueue)[0],
                 "player2": Object.keys(gameQueue)[1],
                 "gameCode": "1"
-            }
+            })
             client.emit('initGame', game);
             client.broadcast.emit('initGame', game);
 
