@@ -81,11 +81,15 @@ io.on('connection', client => {
 function checkGameReady(client) {
     const intervalID = setInterval(() => {
 
+        console.log("interval ID");
+        console.log(client.id);
+        console.log(gameQueue);
+
         if (Object.keys(gameQueue).length < 2) { //game players
 
             client.emit('waiting', 'waiting for Game');
+        } else {
             clearInterval(intervalID);
-
         }
 
     }, 2000)
