@@ -56,7 +56,7 @@ io.on('connection', client => {
     });
 
     //CHAT
-    client.on('sendMessage', 3 message => {
+    client.on('sendMessage', message => {
         console.log(message);
 
         client.broadcast.emit('serverResponse', message); //event, cos
