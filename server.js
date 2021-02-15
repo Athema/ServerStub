@@ -20,7 +20,9 @@ const dbconfig = require('./database/dbconfig');
 const userRoutes = require('./routes/routes')(app)
 
 //LOOKING FOR GAME ATTRIBUTES
-let gameQueue = {}
+let gameQueue = {
+    "player1": "Noktor"
+}
 
 io.on('connection', client => {
 
@@ -33,6 +35,7 @@ io.on('connection', client => {
 
     //LOOKING FOR GAME / matchmaking
     client.on('lookingForGame', player => {
+
 
         //player = JSON.parse(player);
         console.log(player);
