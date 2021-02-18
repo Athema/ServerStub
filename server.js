@@ -50,8 +50,8 @@ io.on('connection', client => {
             let map = Math.floor(Math.random() * maps.length);
 
             let players = [
-                Object.keys(gameQueue)[0],
-                Object.keys(gameQueue)[1]
+                gameQueue[Object.keys(gameQueue)[0]],
+                gameQueue[Object.keys(gameQueue)[1]]
             ]
             console.log("PLAYERS")
             console.log(players)
