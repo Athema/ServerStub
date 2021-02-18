@@ -53,7 +53,8 @@ io.on('connection', client => {
                 Object.keys(gameQueue)[0],
                 Object.keys(gameQueue)[1]
             ]
-
+            console.log("PLAYERS")
+            console.log(players)
             players[0].networkItem.networkId = 0;
             players[0].networkItem.character.networkId = 1;
             players[0].networkItem.originSpawn = 0;
