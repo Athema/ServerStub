@@ -20,9 +20,8 @@ const dbconfig = require('./database/dbconfig');
 const userRoutes = require('./routes/routes')(app)
 
 //LOOKING FOR GAME ATTRIBUTES
-let gameQueue = {
-    "player1": "Noktor"
-}
+let gameQueue
+gameQueue = {}
 
 io.on('connection', client => {
 
@@ -37,14 +36,29 @@ io.on('connection', client => {
     client.on('lookingForGame', player => {
 
 
+        //MAP: Random pero amb mask / pasar un parametre de mapa
+        //Spawn Location i la tile a l'spawn location
+        //network ID internes de unity - player i character -> 
+        //exemple seria: player 1 - id 0, criatura player 1 - id 1, etc, etc
+        //decidir quin jugador comença primer
+
+
         //player = JSON.parse(player);
         console.log(player);
 
-        console.log(player.nickName);
 
-        gameQueue[client.id] = player.nickName
+        //gameQueue[client.id] = player.nickName
+        //gameQueue[client.id] = {}
+        gameQueue[client.id] = player
 
         console.log(gameQueue);
+
+        //Mock Up
+        //let playerMockup = player;
+        //playerMockup.nickName = "Noktor"
+        //gameQueue["pepet"] = playerMockup
+        //end mockup
+
         console.log(Object.keys(gameQueue).length);
 
         if (Object.keys(gameQueue).length >= 2) {
