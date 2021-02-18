@@ -10,6 +10,9 @@ const {
     TOTAL_WAITING_TICKS,
     TICK
 } = require('./utils/constants')
+const maps = require('./utils/maps')
+
+
 
 app.use(express.static(path.join(__dirname, "public")))
 
@@ -36,8 +39,15 @@ io.on('connection', client => {
     client.on('lookingForGame', player => {
 
 
-        //MAP: Random pero amb mask / pasar un parametre de mapa
+
+
+
+        //Random de 0 a 4, enviar numero com parametre "mapa"
+
         //Spawn Location i la tile a l'spawn location
+
+        //int random spawn location, int random origin tile, passar a networkItem
+
         //network ID internes de unity - player i character -> 
         //exemple seria: player 1 - id 0, criatura player 1 - id 1, etc, etc
         //decidir quin jugador comença primer
@@ -62,6 +72,47 @@ io.on('connection', client => {
         console.log(Object.keys(gameQueue).length);
 
         if (Object.keys(gameQueue).length >= 2) {
+
+            //MAP: Random pero amb mask / pasar un parametre de mapa
+
+            let map = maps[Math.floor(Math.random() * maps.length)];
+
+
+            let players = [
+                Object.keys(gameQueue)[0],
+                Object.keys(gameQueue)[1]
+            ]
+
+            for (let player of players) {
+
+                let spawnLocation = Math.floor(Math.random() * map.spawnLocations.length)
+
+                for (let location of map.spawnLocations) {
+
+                    if (map.spawnLocations[spawnLocation].used === false) {
+                        map.spawnLocations[spawnLocation].used = true;
+
+                        let spawnTile = Math.floor(Math.random() * location.spawnTiles.length)
+
+                        for (let tile of location.spawnTiles) {
+
+
+                            if (map.spawnLocations[spawnLocation][spawnTile].used === false) {
+                                map.spawnLocations[spawnLocation][spawnTile].used = true;
+
+
+                            }
+                        }
+                    }
+                }
+            }
+
+            let spawnTile
+
+            console.log(map);
+
+            //end map
+
 
             let game = {
                 "player1": Object.keys(gameQueue)[0],

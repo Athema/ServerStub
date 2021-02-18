@@ -1,0 +1,214 @@
+[{
+    "mapId": 0,
+    "mapName": "cave",
+    "spawnLocations": [{
+        "used": false,
+        "spawnTiles": [{
+            "used": false,
+            "tile": 0
+        }, {
+            "used": false,
+            "tile": 1
+        }, {
+            "used": false,
+            "tile": 2
+        }]
+    }, {
+        "used": false,
+        "spawnTiles": [{
+            "used": false,
+            "tile": 0
+        }, {
+            "used": false,
+            "tile": 1
+        }, {
+            "used": false,
+            "tile": 2
+        }]
+    }, {
+        "used": false,
+        "spawnTiles": [{
+            "used": false,
+            "tile": 0
+        }, {
+            "used": false,
+            "tile": 1
+        }, {
+            "used": false,
+            "tile": 2
+        }]
+    }, {
+        "used": false,
+        "spawnTiles": [{
+            "used": false,
+            "tile": 0
+        }, {
+            "used": false,
+            "tile": 1
+        }, {
+            "used": false,
+            "tile": 2
+        }]
+    }]
+}, {
+    "mapId": 1,
+    "mapName": "slum",
+    "spawnLocations": [{
+        "used": false,
+        "spawnTiles": [{
+            "used": false,
+            "tile": 0
+        }, {
+            "used": false,
+            "tile": 1
+        }, {
+            "used": false,
+            "tile": 2
+        }]
+    }, {
+        "used": false,
+        "spawnTiles": [{
+            "used": false,
+            "tile": 0
+        }, {
+            "used": false,
+            "tile": 1
+        }, {
+            "used": false,
+            "tile": 2
+        }]
+    }, {
+        "used": false,
+        "spawnTiles": [{
+            "used": false,
+            "tile": 0
+        }, {
+            "used": false,
+            "tile": 1
+        }, {
+            "used": false,
+            "tile": 2
+        }]
+    }, {
+        "used": false,
+        "spawnTiles": [{
+            "used": false,
+            "tile": 0
+        }, {
+            "used": false,
+            "tile": 1
+        }, {
+            "used": false,
+            "tile": 2
+        }]
+    }]
+}, {
+    "mapId": 2,
+    "mapName": "forest",
+    "spawnLocations": [{
+        "used": false,
+        "spawnTiles": [{
+            "used": false,
+            "tile": 0
+        }, {
+            "used": false,
+            "tile": 1
+        }, {
+            "used": false,
+            "tile": 2
+        }]
+    }, {
+        "used": false,
+        "spawnTiles": [{
+            "used": false,
+            "tile": 0
+        }, {
+            "used": false,
+            "tile": 1
+        }, {
+            "used": false,
+            "tile": 2
+        }]
+    }, {
+        "used": false,
+        "spawnTiles": [{
+            "used": false,
+            "tile": 0
+        }, {
+            "used": false,
+            "tile": 1
+        }, {
+            "used": false,
+            "tile": 2
+        }]
+    }, {
+        "used": false,
+        "spawnTiles": [{
+            "used": false,
+            "tile": 0
+        }, {
+            "used": false,
+            "tile": 1
+        }, {
+            "used": false,
+            "tile": 2
+        }]
+    }]
+}, {
+    "mapId": 3,
+    "mapName": "wasteland",
+    "spawnLocations": [{
+        "used": false,
+        "spawnTiles": [{
+            "used": false,
+            "tile": 0
+        }]
+    }, {
+        "used": false,
+        "spawnTiles": [{
+            "used": false,
+            "tile": 0
+        }]
+    }, {
+        "used": false,
+        "spawnTiles": [{
+            "used": false,
+            "tile": 0
+        }]
+    }, {
+        "used": false,
+        "spawnTiles": [{
+            "used": false,
+            "tile": 0
+        }]
+    }]
+}, {
+    "test": true,
+    "mapId": 4,
+    "mapName": "testing",
+    "spawnLocations": [{
+        "used": false,
+        "spawnTiles": [{
+            "used": false,
+            "tile": 0
+        }]
+    }, {
+        "used": false,
+        "spawnTiles": [{
+            "used": false,
+            "tile": 0
+        }]
+    }, {
+        "used": false,
+        "spawnTiles": [{
+            "used": false,
+            "tile": 0
+        }]
+    }, {
+        "used": false,
+        "spawnTiles": [{
+            "used": false,
+            "tile": 0
+        }]
+    }]
+}]
