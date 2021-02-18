@@ -13,7 +13,6 @@ const {
 const maps = require('./utils/maps')
 
 
-
 app.use(express.static(path.join(__dirname, "public")))
 
 server.listen(process.env.PORT || 3000, () => console.log(`Server up and running ${PORT}`))
@@ -38,86 +37,36 @@ io.on('connection', client => {
     //LOOKING FOR GAME / matchmaking
     client.on('lookingForGame', player => {
 
-
-
-
-
-        //Random de 0 a 4, enviar numero com parametre "mapa"
-
-        //Spawn Location i la tile a l'spawn location
-
-        //int random spawn location, int random origin tile, passar a networkItem
-
-        //network ID internes de unity - player i character -> 
-        //exemple seria: player 1 - id 0, criatura player 1 - id 1, etc, etc
-        //decidir quin jugador comença primer
-
-
-        //player = JSON.parse(player);
         console.log(player);
 
-
-        //gameQueue[client.id] = player.nickName
-        //gameQueue[client.id] = {}
         gameQueue[client.id] = player
 
         console.log(gameQueue);
-
-        //Mock Up
-        //let playerMockup = player;
-        //playerMockup.nickName = "Noktor"
-        //gameQueue["pepet"] = playerMockup
-        //end mockup
 
         console.log(Object.keys(gameQueue).length);
 
         if (Object.keys(gameQueue).length >= 2) {
 
-            //MAP: Random pero amb mask / pasar un parametre de mapa
-
-            let map = maps[Math.floor(Math.random() * maps.length)];
-
+            let map = Math.floor(Math.random() * maps.length);
 
             let players = [
                 Object.keys(gameQueue)[0],
                 Object.keys(gameQueue)[1]
             ]
 
-            for (let player of players) {
+            players[0].networkItem.networkId = 0;
+            players[0].networkItem.character.networkId = 1;
+            players[0].networkItem.originSpawn = 0;
+            players[0].networkItem.originTileInSpawn = 0;
 
-                let spawnLocation = Math.floor(Math.random() * map.spawnLocations.length)
-
-                for (let location of map.spawnLocations) {
-
-                    if (map.spawnLocations[spawnLocation].used === false) {
-                        map.spawnLocations[spawnLocation].used = true;
-
-                        let spawnTile = Math.floor(Math.random() * location.spawnTiles.length)
-
-                        for (let tile of location.spawnTiles) {
-
-
-                            if (map.spawnLocations[spawnLocation][spawnTile].used === false) {
-                                map.spawnLocations[spawnLocation][spawnTile].used = true;
-
-
-                            }
-                        }
-                    }
-                }
-            }
-
-            let spawnTile
-
-            console.log(map);
-
-            //end map
-
+            players[1].networkItem.networkId = 2;
+            players[1].networkItem.character.networkId = 3;
+            players[1].networkItem.originSpawn = 1;
+            players[1].networkItem.originTileInSpawn = 0;
 
             let game = {
-                "player1": Object.keys(gameQueue)[0],
-                "player2": Object.keys(gameQueue)[1],
-                "gameCode": "1"
+                "players": players,
+                "map": map
             }
             client.emit('initGame', game); //self
             client.broadcast.emit('initGame', game); //the rest
