@@ -84,6 +84,11 @@ io.on('connection', client => {
             client.emit('initGame', game); //self
             client.broadcast.emit('initGame', game); //the rest
 
+            //provisional
+            delete Object.keys(gameQueue)[0]
+            delete Object.keys(gameQueue)[1]
+
+
         } else {
             checkGameReady(client)
         }
