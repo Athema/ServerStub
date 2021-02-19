@@ -47,6 +47,8 @@ io.on('connection', client => {
 
         if (Object.keys(gameQueue).length >= 2) {
 
+            console.log("gameQueue Length size: " + Object.keys(gameQueue).length)
+
             let map = maps[Math.floor(Math.random() * maps.length)];
 
             console.log("Map ID: " + map);
