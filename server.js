@@ -25,6 +25,9 @@ const userRoutes = require('./routes/routes')(app)
 let gameQueue
 gameQueue = {}
 
+let games
+games = {}
+
 io.on('connection', client => {
 
     //CONNECTION & DISCONNECTION
@@ -64,25 +67,19 @@ io.on('connection', client => {
             console.log("PLAYERS")
             console.log(players)
 
-            // players[0].networkItem.networkId = 0;
-            // players[0].networkItem.character.networkId = 1;
-            // players[0].networkItem.originSpawn = 0;
-            // players[0].networkItem.originTileInSpawn = 0;
 
-            // players[1].networkItem.networkId = 2;
-            // players[1].networkItem.character.networkId = 3;
-            // players[1].networkItem.originSpawn = 1;
-            // players[1].networkItem.originTileInSpawn = 0;
-
-            let game = {
+            let gameId = games[Object.keys(gameQueue)[0] + Object.keys(gameQueue)[1]]
+                //moure a member variable
+            games[gameId] = {
                 "players": shufflePlayers(players),
-                "map": map
+                "map": map,
+                "gameId": gameId
             }
 
-            console.log("GAME: " + game);
+            console.log("GAME: " + games[gameId]);
 
-            client.emit('initGame', game); //self
-            client.broadcast.emit('initGame', game); //the rest
+            client.emit('initGame', games[gameId]); //self
+            client.broadcast.emit('initGame', games[gameId]); //the rest
 
             //provisional
             delete Object.keys(gameQueue)[0]
@@ -96,6 +93,31 @@ io.on('connection', client => {
         //console.log(gameQueue);
 
     });
+
+    client.on('clientReady', data => {
+
+        let allPlayersReady = true
+
+        for (let player of games[data.gameId].players) {
+
+            if (player.nickName === data.nickName) {
+                player.ready = true;
+
+            }
+        }
+
+        for (let player of games[data.gameId].players) {
+            if (!player.ready) {
+                allPlayersReady = false;
+                break
+            }
+        }
+
+        if (allPlayersReady) {
+            client.emit('gameReady'); //self
+            client.broadcast.emit('gameReady'); //the rest        
+        }
+    })
 
     client.on('cancelSearch', message => {
         console.log(message);
