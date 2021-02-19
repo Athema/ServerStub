@@ -53,22 +53,30 @@ io.on('connection', client => {
                 gameQueue[Object.keys(gameQueue)[0]],
                 gameQueue[Object.keys(gameQueue)[1]]
             ]
+
+            players = assignNetworkIds(players)
+            players = assignSpawnLocations(players, map)
+
             console.log("PLAYERS")
             console.log(players)
-            players[0].networkItem.networkId = 0;
-            players[0].networkItem.character.networkId = 1;
-            players[0].networkItem.originSpawn = 0;
-            players[0].networkItem.originTileInSpawn = 0;
 
-            players[1].networkItem.networkId = 2;
-            players[1].networkItem.character.networkId = 3;
-            players[1].networkItem.originSpawn = 1;
-            players[1].networkItem.originTileInSpawn = 0;
+            // players[0].networkItem.networkId = 0;
+            // players[0].networkItem.character.networkId = 1;
+            // players[0].networkItem.originSpawn = 0;
+            // players[0].networkItem.originTileInSpawn = 0;
+
+            // players[1].networkItem.networkId = 2;
+            // players[1].networkItem.character.networkId = 3;
+            // players[1].networkItem.originSpawn = 1;
+            // players[1].networkItem.originTileInSpawn = 0;
 
             let game = {
-                "players": players,
+                "players": shufflePlayers(players),
                 "map": map
             }
+
+            console.log(JSON.stringify(game));
+
             client.emit('initGame', game); //self
             client.broadcast.emit('initGame', game); //the rest
 
@@ -136,6 +144,53 @@ function checkGameReady(client) {
         }
 
     }, TICK)
+}
+
+
+function assignNetworkIds(players) {
+    let networkId = 0
+    for (let player of players) {
+        player.networkItem.networkId = networkId++
+            player.networkItem.character.networkId = networkId++
+    }
+    return players
+}
+
+/**
+ * 
+ * @param {Array<player>} players 
+ * @param {Map<map>} map 
+ */
+function assignSpawnLocations(players, map) {
+    for (let player of players) {
+
+        let randomizedLocation = parseInt(Math.floor(Math.random() * map.spawnLocations.length))
+
+        for (let spawnLocation in map.spawnLocations) {
+            if (map.spawnLocations[spawnLocation].used === false && parseInt(spawnLocation) === randomizedLocation) {
+                map.spawnLocations[spawnLocation].used = true
+
+                //spawnLocation
+                player.networkItem.originSpawn = spawnLocation;
+
+                //tile
+                let randomizedTile = parseInt(Math.floor(Math.random() * map.spawnLocations[spawnLocation].spawnTiles.length))
+
+                player.networkItem.originTileInSpawn = randomizedTile;
+
+                map.spawnLocations.splice(spawnLocation, 1)
+                break
+            }
+        }
+    }
+
+
+
+    return players
+}
+
+function shufflePlayers(players) {
+    return players.sort(() => Math.random() - 0.5);
 }
 
 // 3000 en cas de que Heroku no la portés per defecte, 3000 és local
