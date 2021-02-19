@@ -47,7 +47,9 @@ io.on('connection', client => {
 
         if (Object.keys(gameQueue).length >= 2) {
 
-            let map = Math.floor(Math.random() * maps.length);
+            let map = maps[Math.floor(Math.random() * maps.length)];
+
+            console.log("Map ID: " + map);
 
             let players = [
                 gameQueue[Object.keys(gameQueue)[0]],
@@ -75,7 +77,7 @@ io.on('connection', client => {
                 "map": map
             }
 
-            console.log(JSON.stringify(game));
+            console.log("GAME: " + game);
 
             client.emit('initGame', game); //self
             client.broadcast.emit('initGame', game); //the rest
@@ -122,9 +124,9 @@ function checkGameReady(client) {
 
     const intervalID = setInterval(() => {
 
-        console.log("interval ID");
-        console.log(client.id);
-        console.log(gameQueue);
+        // console.log("interval ID");
+        // console.log(client.id);
+        // console.log(gameQueue);
 
         if (Object.keys(gameQueue).length < 2 && currentWaitingTicks < TOTAL_WAITING_TICKS) { //game players
 
